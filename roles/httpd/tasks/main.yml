@@ -1,2 +1,32 @@
----
-# tasks file for httpd
+- name: Menyambungkan Koneksi Ke Remote Host
+  hosts: "{{ hosts }}"
+  gather_facts: true
+  remote_user: root
+  
+  tasks:
+   - name: Melakukan Pemasangan Paket Software EPEL Repository
+     yum: name=epel-release state=present
+
+   - name: Melakukan Pengecekan Pembaruan Paket Software
+     yum: name=* state=latest
+
+   - name: Melakukan Pemasangan Paket Software Apache HTTP Server & PHP
+     yum: name={{ item }} state=present
+     with_items:
+      - httpd
+      - php
+      - php-mysql
+      - php-ldap
+      - php-odbc
+      - php-pear
+      - php-xml
+      - php-xmlrpc
+      - php-mbstring
+      - php-snmp
+      - php-soap
+
+   - name: Menjalankan & Mengaktifkan Service SSH
+     service: name=sshd state=started enabled=yes
+
+   - name: Menjalankan & Mengaktifkan Service Apache HTTP Server
+     service: name=httpd state=started enabled=yes
