@@ -86,7 +86,7 @@ ansible-playbook /opt/ansible-httpd-wordpress-mariadb-remotely/roles/erase-httpd
 /opt/ansible-httpd-wordpress-mariadb-remotely/wp-config-sample.php
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/erase-httpd-wordpress-mariadb-remotely.yml
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/install-httpd-wordpress-mariadb-remotely.yml
-/opt/ansible-httpd-wordpress-mariadb-remotely/roles/httpd/defaults/main.yml
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/wordpress/tasks/main.yml
+/opt/ansible-httpd-wordpress-mariadb-remotely/roles/httpd/defaults/main.yml
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/mariadb/tasks/main.yml
 ```
