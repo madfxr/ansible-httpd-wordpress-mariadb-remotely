@@ -1,8 +1,8 @@
 - include: /opt/ansible-httpd-wordpress-mariadb-remotely/roles/wordpress/tasks/main.yml
    hosts="websrv"
 
-- include: /opt/ansible-httpd-wordpress-mariadb-remotely/httpd/tasks/websrv.yml
+- include: /opt/ansible-httpd-wordpress-mariadb-remotely/httpd/tasks/main.yml
    hosts="websrv"
 
-- include: /opt/ansible-httpd-wordpress-mariadb-remotely/mariadb/tasks/dbsrv.yml
+- include: /opt/ansible-httpd-wordpress-mariadb-remotely/mariadb/tasks/main.yml
    hosts="dbsrv"
