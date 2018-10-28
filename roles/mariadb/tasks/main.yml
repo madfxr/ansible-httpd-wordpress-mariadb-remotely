@@ -1,2 +1,88 @@
----
-# tasks file for mariadb
+- name: Menyambungkan Koneksi Ke Remote Host
+  hosts: "{{ hosts }}"
+  gather_facts: true
+  remote_user: root
+  
+  vars:
+   - wp_mysql_db: db_wordpress
+   - wp_mysql_user: usr-wordpress
+   - wp_mysql_password: W?-p@$5w012D
+  
+  tasks:
+   - name: Melakukan Pemasangan Paket Software EPEL Repository
+     yum: name=epel-release state=present
+
+   - name: Melakukan Pengecekan Pembaruan Paket Software
+     yum: name=* state=latest
+
+   - name: Melakukan Pemasangan Paket Software MariaDB Database Server
+     yum: name={{ item }} state=present
+     with_items:
+      - mariadb-server
+      - mariadb
+      - MySQL-python
+
+   - name: Menjalankan & Mengaktifkan Service SSH
+     service: name=sshd state=started enabled=yes
+
+   - name: Menjalankan & Mengaktifkan Service MariaDB Database Server
+     service: name=mariadb state=started enabled=yes
+
+   - name: Menyalin File Konfigurasi MariaDB Database Server
+     copy: src=/opt/ansible-httpd-wordpress-mariadb-remotely/.my.cnf dest=/root/.my.cnf
+
+   - name: Mengeset Password Database Untuk Root
+     mysql_user:
+      login_password=dB?@s$W012d
+      check_implicit_admin=yes
+      name=root
+      host={{ item }}
+      password=dB?@s$W012d
+      state=present
+     with_items:
+      - localhost
+      - 127.0.0.1
+      - ::1
+
+   - name: Memuat Ulang Hak Istimewa Dari Tabel
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - FLUSH PRIVILEGES
+     changed_when: False
+
+   - name: Menghapus Pengguna Anonim
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - DELETE FROM mysql.user WHERE User=''
+     changed_when: False
+
+   - name: Melarang Akses Database Menggunakan Root Dari Jarak Jauh
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+     changed_when: False
+
+   - name: Menghapus Database Percobaan
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - DROP DATABASE IF EXISTS test
+      - DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'
+     changed_when: False
+
+   - name: Memuat Ulang Hak Istimewa Dari Tabel
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - FLUSH PRIVILEGES
+     changed_when: False
+       
+   - name: Membuat Database Untuk CMS WordPress
+     mysql_db: name={{ wp_mysql_db }} state=present
+
+   - name: Mengeset Username & Password Database Untuk CMS WordPress
+     mysql_user:
+      login_user=root
+      login_password=dB?@s$W012d
+      host=%
+      name={{ wp_mysql_user }}
+      password={{ wp_mysql_password }}
+      priv=*.*:ALL,GRANT
