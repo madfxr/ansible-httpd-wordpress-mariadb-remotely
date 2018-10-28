@@ -1,0 +1,60 @@
+- name: Menyambungkan Koneksi Ke Remote Host
+  hosts: websrv
+  remote_user: root
+  
+  tasks:
+   - name: Melakukan Pencopotan Paket Software LAMP
+     yum: name={{ item }} state=absent
+     with_items:
+      - httpd*
+      - php*
+      - php-mysql
+      - php-ldap
+      - php-odbc
+      - php-pear
+      - php-xml
+      - php-xmlrpc
+      - php-mbstring
+      - php-snmp
+      - php-soap
+  
+   - name: Menghapus Direktori Source CMS WordPress
+     file: 
+      path=/opt/source
+      state=absent
+   
+   - name: Menghapus Direktori Konten Web Server
+     file: 
+      path=/var/www/html
+      state=absent
+
+- name: Menyambungkan Koneksi Ke Remote Host
+  hosts: dbsrv
+  remote_user: root
+
+  tasks:
+   - name: Menghapus Database CMS WordPress
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - DROP DATABASE IF EXISTS db_wordpress
+      - DELETE FROM mysql.db WHERE Db='db_wordpress' OR Db='db_wordpress\\_%'
+     changed_when: False
+
+   - name: Menghapus Pengguna CMS WordPress
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - DELETE FROM mysql.user WHERE User='usr-wordpress'
+     changed_when: False
+
+   - name: Memuat Ulang Hak Istimewa Dari Tabel
+     command: 'mysql -ne "{{ item }}"'
+     with_items:
+      - FLUSH PRIVILEGES
+     changed_when: False
+
+   - name: Melakukan Pencopotan Paket Software LAMP
+     yum: name={{ item }} state=absent
+     with_items:
+      - mariadb-server
+      - mariadb*
+      - MySQL-python
