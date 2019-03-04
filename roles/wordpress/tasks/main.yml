@@ -6,6 +6,9 @@
   tasks:
    - name: Membuat Direktori Source CMS WordPress
      file: path=/opt/source state=directory mode=0775
+     
+   - name: Membuat Root Direktori Website
+     file: path=/var/www state=directory mode=0775
 
    - name: Mengunduh File Master CMS WordPress
      get_url: url=https://www.wordpress.org/latest.tar.gz dest=/opt/source/wordpress.tar.gz validate_certs=no
