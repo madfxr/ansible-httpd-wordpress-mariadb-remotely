@@ -23,7 +23,7 @@
       path=/opt/source
       state=absent
    
-   - name: Menghapus Directory Konten Web Server
+   - name: Menghapus Directory Konten Website
      file: 
       path=/var/www/html
       state=absent
