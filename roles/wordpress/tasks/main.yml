@@ -4,10 +4,10 @@
   remote_user: root
 
   tasks:
-   - name: Membuat Direktori Source CMS WordPress
+   - name: Membuat Directory Source CMS WordPress
      file: path=/opt/source state=directory mode=0775
      
-   - name: Membuat Root Direktori Website
+   - name: Membuat Root Directory Web Server
      file: path=/var/www state=directory mode=0775
 
    - name: Mengunduh File Master CMS WordPress
