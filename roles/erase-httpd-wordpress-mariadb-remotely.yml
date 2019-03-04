@@ -18,12 +18,12 @@
       - php-snmp
       - php-soap
   
-   - name: Menghapus Direktori Source CMS WordPress
+   - name: Menghapus Directory Source CMS WordPress
      file: 
       path=/opt/source
       state=absent
    
-   - name: Menghapus Direktori Konten Web Server
+   - name: Menghapus Directory Konten Web Server
      file: 
       path=/var/www/html
       state=absent
