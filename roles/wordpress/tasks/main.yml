@@ -11,18 +11,20 @@
      file: path=/var/www state=directory mode=0775
 
    - name: Mengunduh File Master CMS WordPress
-     get_url: url=https://www.wordpress.org/latest.tar.gz dest=/opt/source/wordpress.tar.gz validate_certs=no
+     get_url: url=https://wordpress.org/latest.tar.gz dest=/opt/source/wordpress.tar.gz validate_certs=no
 
    - name: Mengekstrak File Master CMS WordPress
-     unarchive: src=/opt/source/wordpress.tar.gz dest=/var/www remote_src=yes
+     shell: |
+      cd /opt/source/
+      tar xfz wordpress.tar.gz
+      cp -R /opt/source/wordpress/ /var/www/html/
+      rm -rf wordpress/
 
-   - name: Merubah Nama Directory CMS WordPress
-     shell: mv /var/www/wordpress /var/www/html
-
-   - name: Menghapus Directory CMS WordPress
-     file: 
-      path=/var/www/wordpress
-      state=absent
+   - name: Merubah Hak Akses Directory & File Pada Konten Website
+     shell: |
+      cd /var/www/html/
+      find . -type d -print0 | xargs -0 chmod 0755
+      find . -type f -print0 | xargs -0 chmod 0644
 
    - name: Menyalin File Konfigurasi Sampel CMS WordPress
      copy: src=/opt/ansible-httpd-wordpress-mariadb-remotely/wp-config-sample.php dest=/var/www/html/wp-config.php mode=0644
