@@ -3,6 +3,14 @@
   remote_user: root
   
   tasks:
+   - name: Membuat Directory Backup Konten Website
+     file: path=/opt/backup state=directory mode=0775
+
+   - name: Melakukan Backup Konten Website
+     shell: |
+      cd /var/www
+      tar -cf /opt/backup/wp_backup.tar.gz html/
+
    - name: Melakukan Pencopotan Paket Software LAMP
      yum: name={{ item }} state=absent
      with_items:
@@ -22,8 +30,8 @@
      file: 
       path=/opt/source
       state=absent
-   
-   - name: Menghapus Directory Konten Website
+  
+   - name: Menghapus Directory Konten Web Server
      file: 
       path=/var/www/html
       state=absent
@@ -33,6 +41,13 @@
   remote_user: root
 
   tasks:
+   - name: Membuat Directory Backup Database CMS WordPress
+     file: path=/opt/backup state=directory mode=0775
+
+   - name: Melakukan Backup Database CMS WordPress
+     shell: |
+      mysqldump -u usr-wordpress -p'W?-p@$5w012D' db_wordpress > /opt/backup/db_wordpress.sql
+
    - name: Menghapus Database CMS WordPress
      command: 'mysql -ne "{{ item }}"'
      with_items:
@@ -51,6 +66,11 @@
      with_items:
       - FLUSH PRIVILEGES
      changed_when: False
+
+   - name: Menghapus File Konfigurasi MariaDB Database Server
+     file:
+      path=/root/.my.cnf
+      state=absent
 
    - name: Melakukan Pencopotan Paket Software LAMP
      yum: name={{ item }} state=absent
