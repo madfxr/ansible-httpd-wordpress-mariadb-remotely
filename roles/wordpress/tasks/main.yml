@@ -15,14 +15,14 @@
 
    - name: Mengekstrak File Master CMS WordPress
      shell: |
-      cd /opt/source
+      cd /opt/source/
       tar xfz wordpress.tar.gz
       cp -R /opt/source/wordpress/ /var/www/html/
       rm -rf wordpress/
 
    - name: Merubah Hak Akses Directory & File Pada Konten Website
      shell: |
-      cd /var/www/html
+      cd /var/www/html/
       find . -type d -print0 | xargs -0 chmod 0755
       find . -type f -print0 | xargs -0 chmod 0644
 
