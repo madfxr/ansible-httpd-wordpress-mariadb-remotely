@@ -1,0 +1,14 @@
+- name: Menyambungkan Koneksi Ke Remote Host
+  hosts: "{{ hosts }}"
+  gather_facts: true
+  remote_user: root cat /opt/ansible-httpd-wordpress-mariadb-r
+
+  tasks:
+   - name: Mengekstrak File Backup Konten Website
+     unarchive: src=/opt/backup/wp_backup.tar.gz dest=/var/www copy=no
+
+   - name: Merubah Hak Akses Directory & File Pada Konten Website
+     shell: |
+      cd /var/www/html/
+      find . -type d -print0 | xargs -0 chmod 0755
+      find . -type f -print0 | xargs -0 chmod 0644
