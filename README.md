@@ -75,6 +75,12 @@ To remove packages and configuration files LAMP (Linux Apache MariaDB PHP) + CMS
 ansible-playbook /opt/ansible-httpd-wordpress-mariadb-remotely/roles/erase-httpd-wordpress-mariadb-remotely.yml
 ```
 
+To install packages and configure LAMP (Linux Apache MariaDB PHP) + CMS Wordpress, also do database restoration and website content, run the following command:
+
+```
+ansible-playbook /opt/ansible-httpd-wordpress-mariadb-remotely/roles/restore-httpd-wordpress-mariadb-remotely.yml
+```
+
 ## Notes
 - Ansible Playbook is still tried on CentOS 7 x86_64 only
 - If you are using another operating system, feel free to make changes to an existing role
@@ -89,4 +95,6 @@ ansible-playbook /opt/ansible-httpd-wordpress-mariadb-remotely/roles/erase-httpd
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/wordpress/tasks/main.yml
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/httpd/defaults/main.yml
 /opt/ansible-httpd-wordpress-mariadb-remotely/roles/mariadb/tasks/main.yml
+/opt/ansible-httpd-wordpress-mariadb-remotely/roles/wordpress/tasks/restore.yml
+/opt/ansible-httpd-wordpress-mariadb-remotely/roles/mariadb/tasks/restore.yml
 ```
