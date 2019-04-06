@@ -1,0 +1,8 @@
+- import_playbook: /opt/ansible-httpd-wordpress-mariadb-remotely/roles/wordpress/tasks/restore.yml
+   hosts="websrv"
+
+- import_playbook: /opt/ansible-httpd-wordpress-mariadb-remotely/roles/httpd/tasks/main.yml
+   hosts="websrv"
+
+- import_playbook: /opt/ansible-httpd-wordpress-mariadb-remotely/roles/mariadb/tasks/restore.yml
+   hosts="dbsrv"
