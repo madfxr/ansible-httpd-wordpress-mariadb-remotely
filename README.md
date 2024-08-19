@@ -18,7 +18,7 @@ yum install git ansible -y
 After that, clone the required repository:
 ```
 cd /opt/
-git clone https://github.com/xnxmx/ansible-httpd-wordpress-mariadb-remotely.git
+git clone https://github.com/madfxr/ansible-httpd-wordpress-mariadb-remotely.git
 ```
 
 To see which version of Ansible is installed, type the following command:
